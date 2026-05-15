@@ -19,28 +19,28 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive \
 ENV WORKSPACE /catkin_ws
 
 RUN mkdir -p $WORKSPACE/src && \
-	cd $WORKSPACE && \
-	catkin init && \
-	catkin config --extend /opt/ros/noetic && \
-	catkin config --cmake-args -DCMAKE_BUILD_TYPE=Release
+    cd $WORKSPACE && \
+    catkin init && \
+    catkin config --extend /opt/ros/noetic && \
+    catkin config --cmake-args -DCMAKE_BUILD_TYPE=Release
 
 ADD . $WORKSPACE/src/kalibr
 # RUN cd $WORKSPACE/src &&\
 # 	git clone https://github.com/ori-drs/kalibr.git
 
-RUN	cd $WORKSPACE &&\
-	catkin build -j$(nproc)
+RUN cd $WORKSPACE && \
+    rm -rf build devel logs && \
+    catkin build -j$(nproc) --force-cmake
 
+# Install tools to convert rosbag from ROS2 to ROS1
+# Guide: https://github.com/ethz-asl/kalibr/wiki/ROS2-Calibration-Using-Kalibr
+RUN pip3 install rosbags
+# Usage: rosbags-convert <ros2_bag_folder> --dst calib_01.bag --exclude-topic <non_img_and_imu_topics>
 
 # When a user runs a command we will run this code before theirs
 # This will allow for using the manual focal length if it fails to init
 # https://github.com/ethz-asl/kalibr/pull/346
 ENTRYPOINT export KALIBR_MANUAL_FOCAL_LENGTH_INIT=1 && \
-	# /bin/bash -c "source \"$WORKSPACE/devel/setup.bash\"" && \ 
+	/bin/bash -c "source \"$WORKSPACE/devel/setup.bash\"" && \ 
 	cd $WORKSPACE && \
 	/bin/bash
-
-
-
-
-

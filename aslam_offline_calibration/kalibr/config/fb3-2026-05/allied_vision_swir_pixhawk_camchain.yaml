@@ -1,0 +1,13 @@
+cam0:
+  camera_model: pinhole
+  intrinsics: [0.0, 0.0, 0.0, 0.0]  # [fu, fv, pu, pv] - focal lengths and principal point
+  distortion_model: radtan
+  distortion_coeffs: [0.0, 0.0, 0.0, 0.0]  # k1, k2, p1, p2
+  T_cam_imu:
+  - [1.0, 0.0, 0.0, 0.0]     # Identity matrix as initial estimate
+  - [0.0, 1.0, 0.0, 0.0]     # (Kalibr will optimize this)
+  - [0.0, 0.0, 1.0, 0.0]
+  - [0.0, 0.0, 0.0, 1.0]
+  timeshift_cam_imu: 0.0      # Kalibr will optimize this
+  rostopic: /allied_vision_swir_camera/image
+  resolution: [0, 0]

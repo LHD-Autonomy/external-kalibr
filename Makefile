@@ -2,7 +2,7 @@
 # ------------ Kalibr utils  ---------------
 # ------------------------------------------------
 kalibr-build:
-	@cd ./src/libs/sensors/submodules/kalibr && docker build -t kalibr -f Dockerfile_ros1_20_04 . && cd ../../../../../
+	@docker build -t kalibr -f Dockerfile_ros1_20_04 . && cd ../../../../../
 
 kalibr-run:
 	@echo "To generate an AprilTag, run:"
@@ -16,16 +16,16 @@ kalibr-run:
 		echo "Attaching to Kalibr running container..."; \
 		docker exec -it $$CONTAINER_NAME bash -c '\
 			source /opt/ros/noetic/setup.bash && \
-			if [ -f /kalibr/install/setup.bash ]; then source /kalibr/install/setup.bash; \
-			elif [ -f /kalibr/devel/setup.bash ]; then source /kalibr/devel/setup.bash; fi && \
+			if [ -f /catkin_ws/install/setup.bash ]; then source /catkin_ws/install/setup.bash; \
+			elif [ -f /catkin_ws/devel/setup.bash ]; then source /catkin_ws/devel/setup.bash; fi && \
 			exec bash'; \
 	elif [ "$$(docker ps -aq -f name=$$CONTAINER_NAME)" ]; then \
 		echo "Starting existing Kalibr container..."; \
 		docker start $$CONTAINER_NAME && \
 		docker exec -it $$CONTAINER_NAME bash -c '\
 			source /opt/ros/noetic/setup.bash && \
-			if [ -f /kalibr/install/setup.bash ]; then source /kalibr/install/setup.bash; \
-			elif [ -f /kalibr/devel/setup.bash ]; then source /kalibr/devel/setup.bash; fi && \
+			if [ -f /catkin_ws/install/setup.bash ]; then source /catkin_ws/install/setup.bash; \
+			elif [ -f /catkin_ws/devel/setup.bash ]; then source /catkin_ws/devel/setup.bash; fi && \
 			exec bash'; \
 	else \
 		echo "Creating new Kalibr container..."; \
@@ -34,12 +34,14 @@ kalibr-run:
 			-e DISPLAY \
 			-e QT_X11_NO_MITSHM=1 \
 			-v /tmp/.X11-unix:/tmp/.X11-unix:rw \
-			-v "$$PWD:/workspace" \
+			-v "$$PWD/../enhanced-sensing:/enhanced-sensing" \
+			-v "$$PWD:/catkin_ws/src/kalibr" \
+			-v "/media/ms2/fb3_2025/FB3_2026-05-19/fb3_2026-05":/data" \
 			$$IMAGE_NAME \
 			bash -c '\
 				source /opt/ros/noetic/setup.bash && \
-				if [ -f /kalibr/install/setup.bash ]; then source /kalibr/install/setup.bash; \
-				elif [ -f /kalibr/devel/setup.bash ]; then source /kalibr/devel/setup.bash; fi && \
+				if [ -f /catkin_ws/install/setup.bash ]; then source /catkin_ws/install/setup.bash; \
+				elif [ -f /catkin_ws/devel/setup.bash ]; then source /catkin_ws/devel/setup.bash; fi && \
 				exec bash'; \
 	fi
 

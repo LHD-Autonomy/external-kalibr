@@ -114,3 +114,5 @@ Estimating time shift camera to imu:
 ```
 rosbag reindex /data/20260519_170959_bolzano_kalibr_basler/20260519_170959_kalibr_rope_bolzano_basler.bag
 ```
+
+NOTE: this did not crashed but estimated translation is not correct: make kalibr-calibrate-swir-pixhawk

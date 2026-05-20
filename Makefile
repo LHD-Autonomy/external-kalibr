@@ -1,6 +1,10 @@
 # ------------------------------------------------
 # ------------ Kalibr utils  ---------------
 # ------------------------------------------------
+.PHONY: kalibr-build kalibr-run kalibr-del
+.PHONY: kalibr-calibrate-swir-krio       kalibr-calibrate-swir-pixhawk 
+.PHONY: kalibr-calibrate-basler51gc-krio kalibr-calibrate-basler51gc-pixhawk
+
 kalibr-build:
 	@docker build -t kalibr -f Dockerfile_ros1_20_04 . && cd ../../../../../
 
@@ -35,8 +39,8 @@ kalibr-run:
 			-e QT_X11_NO_MITSHM=1 \
 			-v /tmp/.X11-unix:/tmp/.X11-unix:rw \
 			-v "$$PWD/../enhanced-sensing:/enhanced-sensing" \
-			-v "$$PWD:/catkin_ws/src/kalibr" \
-			-v "/media/ms2/fb3_2025/FB3_2026-05-19/fb3_2026-05":/data" \
+			-v "$$PWD:/workspace" \
+			-v "/media/ms2/fb3_2025/FB3_2026-05-19/fb3_2026-05:/data" \
 			$$IMAGE_NAME \
 			bash -c '\
 				source /opt/ros/noetic/setup.bash && \
@@ -57,4 +61,25 @@ kalibr-del:
 		echo "Kalibr Container removed."; \
 	else \
 		echo "No container named $$CONTAINER_NAME found."; \
+	fi
+
+kalibr-calibrate-swir-pixhawk:
+	@if [ -f /.dockerenv ]; then \
+		clear && bash ./scripts/run_allied_vision_swir_pixhawk_calibration.sh; \
+	else \
+		echo "Run this inside the Kalibr container (make kalibr-run)"; \
+	fi
+
+kalibr-calibrate-basler51gc-pixhawk:
+	@if [ -f /.dockerenv ]; then \
+		clear && bash ./scripts/run_basler51gc_pixhawk_calibration.sh; \
+	else \
+		echo "Run this inside the Kalibr container (make kalibr-run)"; \
+	fi
+
+kalibr-calibrate-basler51gc-krio:
+	@if [ -f /.dockerenv ]; then \
+		clear && bash ./scripts/run_basler51gc_krio_calibration.sh; \
+	else \
+		echo "Run this inside the Kalibr container (make kalibr-run)"; \
 	fi

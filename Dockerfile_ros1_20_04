@@ -15,7 +15,7 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive \
 	python3-catkin-tools python3-osrf-pycommon
 
 # ---- Workspace ----
-ENV WORKSPACE=/catkin_ws
+ENV WORKSPACE=/workspace
 
 RUN mkdir -p $WORKSPACE/src
 
@@ -33,8 +33,9 @@ RUN /bin/bash -c "source /opt/ros/noetic/setup.bash && \
 RUN pip3 install rosbags
 
 # ---- Bash aliases ----
-RUN echo "alias build_ws='catkin build --workspace $WORKSPACE -j\$(nproc) --force-cmake'" >> /root/.bashrc && \
-    echo "alias rebuild_ws='catkin clean -y --workspace $WORKSPACE && catkin build --workspace $WORKSPACE -j\$(nproc)'" >> /root/.bashrc
+RUN echo "alias build_ws='catkin build -j\$(nproc) --force-cmake'" >> /root/.bashrc && \
+    echo "alias rebuild_ws='catkin clean -y && catkin build -j\$(nproc)'" >> /root/.bashrc && \
+    echo "alias build_kalibr='catkin build kalibr -j\$(nproc) --force-cmake'" >> /root/.bashrc
 
 # ---- Environment setup ----
 RUN echo "source /opt/ros/noetic/setup.bash" >> /root/.bashrc && \

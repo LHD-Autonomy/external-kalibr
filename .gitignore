@@ -4,6 +4,9 @@
 *.o
 *.obj
 .catkin_tools
+devel/
+logs/
+build/
 
 # Compiled Dynamic libraries
 *.so

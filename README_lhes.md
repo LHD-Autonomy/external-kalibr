@@ -109,3 +109,8 @@ Building the problem
         Time offset padding: 0.030000
 Estimating time shift camera to imu:
 ```
+
+- If required to reindex a ROS1 bag:
+```
+rosbag reindex /data/20260519_170959_bolzano_kalibr_basler/20260519_170959_kalibr_rope_bolzano_basler.bag
+```

@@ -1,10 +1,10 @@
-#Accelerometers
-accelerometer_noise_density: 1.0e-03   #Noise density (continuous-time)
-accelerometer_random_walk:   2.0e-04   #Bias random walk
+# Accelerometers
+accelerometer_noise_density: 1.4e-03   # Balanced baseline
+accelerometer_random_walk:   8.0e-05   # Lowered: high walk values cause translation drift
 
-#Gyroscopes
-gyroscope_noise_density:     1.0e-04   #Noise density (continuous-time)
-gyroscope_random_walk:       2.0e-05   #Bias random walk
+# Gyroscopes
+gyroscope_noise_density:     1.5e-04   
+gyroscope_random_walk:       2.0e-06   # Lowered: allows sharp tracking of orientation changes
 
-rostopic:                    /px4_ins/imu      #the IMU ROS topic
-update_rate:                 52.0      #Hz (for discretization of the values above)
+rostopic:                    /px4_ins/imu      
+update_rate:                 46.77      # Set this to the exact average rate of your bag topic

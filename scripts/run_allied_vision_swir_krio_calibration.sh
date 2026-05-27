@@ -16,4 +16,5 @@ rosrun kalibr kalibr_calibrate_imu_camera \
   --bag "$BAG" \
   --cam "$CAM" \
   --imu "$IMU" \
+  --bag-freq 4.0 \
   --target "$TARGET"

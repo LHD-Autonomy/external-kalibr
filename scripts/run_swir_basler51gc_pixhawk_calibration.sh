@@ -2,11 +2,10 @@
 set -e
 
 # --- Files ---
-# BAG="/data/20260519_bolzano_integration_day4/20260519_bolzano_calibrations/20260519_170959_bolzano_kalibr_basler/kalibr_processed/kalibr_basler_swir_reduced_db3_ros1.bag"
-# BAG="/data/20260519_bolzano_integration_day4/20260519_bolzano_calibrations/20260519_170959_bolzano_kalibr_basler/kalibr_processed/kalibr_basler_swir_full_db3_ros1.bag"
 BAG="/data/20260519_bolzano_integration_day4/20260519_bolzano_calibrations/20260519_170959_bolzano_kalibr_basler/kalibr_processed/kalibr_basler_swir_only_motion_db3_smooth_rosbag_ros1.bag"
 
-CAM="/workspace/config/fb3-2026-05/allied_vision_swir_pixhawk_camchain.yaml"
+# 1. CRITICAL: Point this to the new file containing BOTH cameras and the T_cn_cnm1 baseline matrix
+CAM="/workspace/config/fb3-2026-05/basler_swir_locked_camchain.yaml"
 IMU="/workspace/config/fb3-2026-05/pixhawk_calibration.yaml"
 TARGET="/workspace/config/fb3-2026-05/calibration_target.yaml"
 
@@ -15,8 +14,14 @@ source /opt/ros/noetic/setup.bash
 source /workspace/devel/setup.bash
 
 # --- Run ---
+export MPLBACKEND=Agg
+
+echo "Running Camera-IMU Calibration with fixed stereo baseline..."
 rosrun kalibr kalibr_calibrate_imu_camera \
   --bag "$BAG" \
-  --cam "$CAM" \
+  --cams "$CAM" \
   --imu "$IMU" \
-  --target "$TARGET"
+  --target "$TARGET" \
+  --bag-freq 10 \
+  --max-iter 25 \
+  --dont-show-report

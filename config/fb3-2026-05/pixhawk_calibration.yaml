@@ -7,4 +7,4 @@ gyroscope_noise_density:     1.5e-04
 gyroscope_random_walk:       2.0e-06   # Lowered: allows sharp tracking of orientation changes
 
 rostopic:                    /px4_ins/imu      
-update_rate:                 46.77      # Set this to the exact average rate of your bag topic
+update_rate:                 51.52      # Set this to the exact average rate of your bag topic

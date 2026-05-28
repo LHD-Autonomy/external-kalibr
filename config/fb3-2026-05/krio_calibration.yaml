@@ -7,4 +7,4 @@ gyroscope_noise_density:     1.0e-05   #Noise density (continuous-time)
 gyroscope_random_walk:       2.0e-06   #Bias random walk
 
 rostopic:                    /krio_ins/imu      #the IMU ROS topic
-update_rate:                 88.0      #Hz (for discretization of the values above)
+update_rate:                 17.38      #Hz (for discretization of the values above)

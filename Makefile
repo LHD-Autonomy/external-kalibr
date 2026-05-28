@@ -71,6 +71,13 @@ kalibr-calibrate-swir-pixhawk:
 		echo "Run this inside the Kalibr container (make kalibr-run)"; \
 	fi
 
+kalibr-calibrate-swir-basler51gc:
+	@if [ -f /.dockerenv ]; then \
+		clear && bash ./scripts/run_swir_basler51gc_pixhawk_calibration.sh; \
+	else \
+		echo "Run this inside the Kalibr container (make kalibr-run)"; \
+	fi
+
 kalibr-calibrate-basler51gc-pixhawk:
 	@if [ -f /.dockerenv ]; then \
 		clear && bash ./scripts/run_basler51gc_pixhawk_calibration.sh; \
